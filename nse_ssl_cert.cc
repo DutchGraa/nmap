@@ -654,11 +654,11 @@ static int parse_ssl_cert(lua_State *L, X509 *cert)
   #if HAVE_OPAQUE_STRUCTS
     const BIGNUM *n, *e, *d;
     RSA_get0_key(rsa, &n, &e, &d);
-    data->bn = (BIGNUM*) e;
+    data->bn = (BIGNUM*) n;
   #else
-    data->bn = rsa->e;
+    data->bn = rsa->n;
   #endif
-    lua_setfield(L, -2, "exponent");
+    lua_setfield(L, -2, "modulus");
   }
   lua_pushstring(L, pkey_type_to_string(pkey_type));
   lua_setfield(L, -2, "type");
